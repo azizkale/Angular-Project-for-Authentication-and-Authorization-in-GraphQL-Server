@@ -8,10 +8,6 @@ const USERS = gql`
       id
       username
       city
-      posts {
-        id
-        title
-      }
     }
   }
 `;
@@ -21,10 +17,6 @@ const USER = gql`
       id
       username
       city
-      posts {
-        id
-        title
-      }
     }
   }
 `;
@@ -35,6 +27,11 @@ const ADD_USER = gql`
       username
       city
     }
+  }
+`;
+const LOGIN = gql`
+  query Login($username: String!, $password: String!) {
+    login(username: $username, password: $password)
   }
 `;
 
@@ -68,5 +65,14 @@ export class MyserviceService {
         city: city,
       },
     });
+  }
+  login(username: string, password: string): Observable<any> {
+    return this.apollo.watchQuery({
+      query: LOGIN,
+      variables: {
+        username: username,
+        password: password,
+      },
+    }).valueChanges;
   }
 }

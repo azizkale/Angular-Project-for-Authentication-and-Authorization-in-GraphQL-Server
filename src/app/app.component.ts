@@ -8,33 +8,38 @@ import { MyserviceService } from './myservice.service';
 })
 export class AppComponent implements OnInit {
   users = [];
-  user;
 
   constructor(private myservice: MyserviceService) {}
 
-  ngOnInit(): void {
-    this.getUsers();
-    this.getUser(1);
-    this.addUser(5, 'aziz kale', 'ankara');
-  }
+  ngOnInit(): void {}
 
   getUsers() {
+    this.users = [];
     this.myservice.getUsers().subscribe((data) => {
-      this.users = data.data.users;
-      console.log(this.users);
+      data.data.users.map((u) => {
+        this.users.push(u);
+      });
     });
   }
 
-  getUser(id: any) {
-    this.myservice.getUser(id).subscribe((data) => {
-      this.user = data.data.user;
-      console.log(this.user);
-    });
-  }
-
-  addUser(id: any, username: string, city: string) {
+  addUser(username: string, city: string) {
+    this.users = [];
+    const id: any = '5';
     this.myservice.addUser(id, username, city).subscribe((data) => {
-      console.log(data.data.addUser);
+      console.log(data);
+      data.data.addUser.map((user) => {
+        this.users.push(user);
+      });
     });
+  }
+
+  login(username, password) {
+    this.myservice.login(username, password).subscribe((data) => {
+      localStorage.setItem('token', data.data.login);
+    });
+  }
+  logout() {
+    localStorage.removeItem('token');
+    window.location.reload();
   }
 }
