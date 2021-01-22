@@ -8,6 +8,7 @@ import { MyserviceService } from './myservice.service';
 })
 export class AppComponent implements OnInit {
   users = [];
+  currentUser;
 
   constructor(private myservice: MyserviceService) {}
 
@@ -26,7 +27,6 @@ export class AppComponent implements OnInit {
     this.users = [];
     const id: any = '5';
     this.myservice.addUser(id, username, city).subscribe((data) => {
-      console.log(data);
       data.data.addUser.map((user) => {
         this.users.push(user);
       });
@@ -36,10 +36,12 @@ export class AppComponent implements OnInit {
   login(username, password) {
     this.myservice.login(username, password).subscribe((data) => {
       localStorage.setItem('token', data.data.login);
+      this.currentUser = username;
     });
   }
   logout() {
     localStorage.removeItem('token');
+    this.currentUser = null;
     window.location.reload();
   }
 }

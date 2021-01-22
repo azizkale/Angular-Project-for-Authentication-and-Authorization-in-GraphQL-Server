@@ -83,13 +83,14 @@
     </div>
   </div>
   <div class="row">
-    <h3 class="col-12 text-center">LIST OF USERS</h3>
-    <input
-      class="btn btn-primary col-12"
-      type="button"
-      value="List Users"
-      (click)="getUsers()"
-    />
+    <div class="col-12">
+      <h5 *ngIf="currentUser">{{ currentUser }} logged In</h5>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary col-12" (click)="getUsers()">
+      <h6>List Users</h6>
+    </button>
     <div class="col-12 mt-2">
       <ul class="col" *ngFor="let user of users">
         <li class="col">id: {{ user.id }}</li>
