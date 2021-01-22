@@ -36,7 +36,9 @@ export class AppComponent implements OnInit {
   login(username, password) {
     this.myservice.login(username, password).subscribe((data) => {
       localStorage.setItem('token', data.data.login);
-      this.currentUser = username;
+      if (data.data.login !== 'unknown user') {
+        this.currentUser = username;
+      }
     });
   }
   logout() {
